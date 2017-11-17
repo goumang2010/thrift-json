@@ -44,3 +44,9 @@ pip-log.txt
 .pydevproject
 *.sublime-workspace
 *.sw[op]
+
+# vscode
+.pyc
+
+# MAC
+.DS_Store
