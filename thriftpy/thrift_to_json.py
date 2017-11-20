@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
-import sys
+import sys, getopt
 from parser import parse
 from Type import DataType
 
@@ -29,6 +29,7 @@ class DTJ:
         self.js.append("},\"services\":{")
         self.get_return_type_dict()
         self.js.append("}")
+        return self
 
     def get_return_type_dict(self):
         for service in self.services:
@@ -156,9 +157,13 @@ class DTJ:
             field = item[1]
             res = self.write_type(field, write_type)
             if res is not None:
-                strlist.append(field[1])
+                fieldname = field[1]
                 if write_type == "type" and not field[2]:
-                    strlist.append("?")
+                    strlist.append(fieldname + "?")
+                elif write_type == "empty":
+                    strlist.append("\"%s\"" % fieldname)
+                else:
+                    strlist.append(fieldname)
                 strlist.append(":")
                 strlist.extend(res)
                 strlist.append(",")
@@ -234,12 +239,47 @@ class DTJ:
     def write_str_type(self):
         return ["string"]
 
+def output_result(str_res, outputfile = None):
+    if outputfile:
+        with open(outputfile, 'w+') as f:
+            f.write(str_res)
+    else:
+        print str_res
 
-if __name__ == '__main__':
+def main(argv):
     dj = DTJ()
-    for line in sys.stdin:
-        filepath = line.strip()
-        if filepath:
-            dj.parse(filepath)
-            dj.get_type_dict()
-            print dj.output()
+    try:
+        opts, args = getopt.getopt(argv,"hi:o:",["input=","output="])
+    except getopt.GetoptError:
+        print 'python thrift_to_json.py -i <inputfile> -o <outputfile>'
+        sys.exit(2)
+    input_files = []
+    output_files = []
+    for opt, arg in opts:
+        if opt == '-h':
+            print 'python thrift_to_json.py -i <inputfile> -o <outputfile>'
+            sys.exit()
+        elif opt in ("-i", "--input"):
+            input_files.append(arg)
+        elif opt in ("-o", "--output"):
+            output_files.append(arg)
+    count = len(input_files)
+    ocount = len(output_files)
+    if count > 0:
+        for i in range(0, count):
+            dj.parse(input_files[i])
+            if i < ocount:
+                output_result(dj.get_type_dict().output(), output_files[i])
+            else:
+                output_result(dj.get_type_dict().output())
+    else:
+        for line in sys.stdin:
+            filepath = line.strip()
+            if filepath:
+                dj.parse(filepath)
+                if ocount > 0:
+                    output_result(dj.get_type_dict().output(), output_files[0])
+                else:
+                    output_result(dj.get_type_dict().output())
+if __name__ == '__main__':
+    main(sys.argv[1:])
