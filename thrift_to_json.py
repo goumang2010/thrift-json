@@ -207,7 +207,7 @@ class DTJ:
         return ["false"]
 
     def write_bool_type(self):
-        return ["boolen"]
+        return ["boolean"]
 
     def write_byte(self):
         return ["\"\""]
