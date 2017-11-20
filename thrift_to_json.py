@@ -69,8 +69,9 @@ class DTJ:
             strlist.append("\"%s\":{" % service.__name__)
             for method_name in service_dict["thrift_services"]:
                 strlist.append("\"%s\":{" % method_name)
-                args_type = service_dict[method_name + '_args']
-                if args_type.thrift_spec:
+                argname = method_name + '_args'
+                args_type = (argname in service_dict) and service_dict[argname]
+                if args_type and args_type.thrift_spec:
                     strlist.append("\"args\":\"[")
                     spec = args_type.thrift_spec
                     length = len(spec) + 1
@@ -81,8 +82,9 @@ class DTJ:
                         strlist.append(",")
                     self.trim_tail_comma(strlist)
                     strlist.append("]\",")
-                result_type = service_dict[method_name + '_result']
-                if result_type.thrift_spec and ("0" in result_type.thrift_spec):
+                resultname = method_name + '_result'
+                result_type = (resultname in service_dict) and service_dict[resultname]
+                if result_type and result_type.thrift_spec and (0 in result_type.thrift_spec):
                     spec = result_type.thrift_spec[0]
                     strlist.append("\"result\":\"")
                     strlist.extend(self.write_type(spec))
