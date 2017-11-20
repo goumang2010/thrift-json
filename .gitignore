@@ -50,3 +50,6 @@ pip-log.txt
 
 # MAC
 .DS_Store
+
+# vscode
+.vscode
