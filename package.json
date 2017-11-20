@@ -1,0 +1,30 @@
+{
+  "name": "thrift-json",
+  "description": "convert thrift meta to json",
+  "version": "1.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "lzn",
+    "url": "http://w.chuune.com"
+  },
+  "engines": {
+    "node": ">=4.2.1"
+  },
+  "main": "index.js",
+  "files": [
+    "thriftpy",
+    "index.js",
+    "thrift_to_json.py"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/goumang2010/thrift-json.git"
+  },
+  "scripts": {
+    "py": "python thrift_to_json.py",
+    "test": "node test/case.js"
+  },
+  "dependencies": {
+    "python-shell": "^0.4.0"
+  }
+}
