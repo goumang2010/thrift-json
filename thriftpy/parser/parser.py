@@ -11,11 +11,11 @@ import collections
 import os
 import sys
 import types
-from ply import lex, yacc
+from .ply import lex, yacc
 from .lexer import *  # noqa
 from .exc import ThriftParserError, ThriftGrammerError
-from thriftpy._compat import urlopen, urlparse
-from ..thrift import gen_init, TType, TPayload, TException
+from ._compat import urlopen, urlparse
+from .thrift import gen_init, TType, TPayload, TException
 
 
 def p_error(p):
