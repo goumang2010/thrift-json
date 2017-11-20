@@ -5,7 +5,7 @@ module.exports = exports.default = function (files) {
     if (files && (typeof files === 'string')) files = [files];
     else if (!Array.isArray(files)) return Promise.reject('Please input files array');
     return new Promise(function (resolve, reject) {
-        var thriftpy = new PythonShell('thrift_to_json.py');
+        var thriftpy = new PythonShell(path.relative(process.cwd(), path.resolve(__dirname, 'thrift_to_json.py')));
         var result = [];
         var idx = 0;
         // sends a message to the Python script via stdin
