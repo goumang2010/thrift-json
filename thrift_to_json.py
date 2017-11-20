@@ -72,16 +72,17 @@ class DTJ:
                 argname = method_name + '_args'
                 args_type = (argname in service_dict) and service_dict[argname]
                 if args_type and args_type.thrift_spec:
-                    strlist.append("\"args\":\"[")
+                    strlist.append("\"args\":\"")
                     spec = args_type.thrift_spec
                     length = len(spec) + 1
                     for idx in range(1, length):
+                        strlist.append(spec[idx][1] + ":")
                         strlist.extend(self.write_type(spec[idx]))
                         if spec[idx][2] == False:
                             strlist.append("|void")
                         strlist.append(",")
                     self.trim_tail_comma(strlist)
-                    strlist.append("]\",")
+                    strlist.append("\",")
                 resultname = method_name + '_result'
                 result_type = (resultname in service_dict) and service_dict[resultname]
                 if result_type and result_type.thrift_spec and (0 in result_type.thrift_spec):
