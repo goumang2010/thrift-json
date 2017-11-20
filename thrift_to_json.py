@@ -34,6 +34,8 @@ class DTJ:
     def get_return_type_dict(self):
         for service in self.services:
             self.js.extend(self.write_service(service))
+            self.js.append(",")
+        self.trim_tail_comma(self.js)
 
     def get_struct_type_dict(self):
         structs = self.metas["structs"]
@@ -80,7 +82,7 @@ class DTJ:
                     self.trim_tail_comma(strlist)
                     strlist.append("]\",")
                 result_type = service_dict[method_name + '_result']
-                if result_type.thrift_spec:
+                if result_type.thrift_spec and ("0" in result_type.thrift_spec):
                     spec = result_type.thrift_spec[0]
                     strlist.append("\"result\":\"")
                     strlist.extend(self.write_type(spec))
@@ -89,6 +91,7 @@ class DTJ:
                     if res is not None:
                         strlist.append(",\"empty\":")
                         strlist.extend(self.write_type(spec, "empty"))
+                self.trim_tail_comma(strlist)
                 strlist.append("},")
             self.trim_tail_comma(strlist)
             strlist.append("}")
