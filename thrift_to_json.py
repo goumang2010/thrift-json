@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
 import sys, getopt
-from parser import parse
-from Type import DataType
+from thriftpy.parser import parse
+from thriftpy.Type import DataType
 
 """
     translate .thrift to json
