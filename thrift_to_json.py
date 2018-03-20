@@ -29,6 +29,9 @@ class DTJ:
         self.js.append("},\"services\":{")
         self.get_return_type_dict()
         self.js.append("}")
+        if "includes" in self.metas:
+            self.js.append(",\"includes\":")
+            self.get_include_mod_list()
         return self
 
     def get_return_type_dict(self):
@@ -42,6 +45,14 @@ class DTJ:
         for struct in structs:
             self.js.extend(self.write_struct(struct))
         self.trim_tail_comma(self.js)
+
+    def get_include_mod_list(self):
+        includes = self.metas['includes']
+        self.js.append("[")
+        for mod in includes:
+            self.js.append("\"%s\"," % mod.__name__)
+        self.trim_tail_comma(self.js)
+        self.js.append("]")
 
     def output(self):
         if self.js:
