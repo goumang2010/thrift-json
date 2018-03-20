@@ -1,10 +1,10 @@
 {
   "name": "thrift-json",
   "description": "convert thrift meta to json",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "author": {
-    "name": "lzn",
+    "name": "zzz",
     "url": "http://w.chuune.com"
   },
   "engines": {
